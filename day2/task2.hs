@@ -21,18 +21,17 @@ part n index length = (n `mod` top) `div` bottom
     top = 10^(d - index)
     bottom = 10^(d - index - length)
 
-hasRepeatingPattern :: Int -> Int -> Bool
-hasRepeatingPattern n patternLen = 
-    d `mod` patternLen == 0 && allEqual && firstPart > 0
+repeatingPattern :: Int -> Int -> Bool
+repeatingPattern n lambda = d `mod` lambda == 0 && allEqual && firstPart > 0
   where
     d = digits n
-    repetitions = d `div` patternLen
-    parts = [part n (i * patternLen) patternLen | i <- [0..repetitions-1]]
+    repetitions = d `div` lambda
+    parts = [part n (i * lambda) lambda | i <- [0..repetitions-1]]
     firstPart = head parts
     allEqual = all (== firstPart) parts
 
 isInvalid :: Int -> Bool
-isInvalid n = any (hasRepeatingPattern n) [1..d `div` 2]
+isInvalid n = any (repeatingPattern n) [1..d `div` 2]
   where
     d = digits n
 
